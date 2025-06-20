@@ -1,7 +1,14 @@
 [project]
 name = "implementing-multi-agent-with-a2a-semantickernel"
 version = "0.1.0"
-description = "Add your description here"
+description = "Implementing Multi Agent with A2A Semantic Kernel"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "a2a-sdk>=0.2.8",
+    "fastapi>=0.115.13",
+    "python-a2a>=0.5.9",
+    "python-dotenv>=1.1.0",
+    "python-multipart>=0.0.20",
+    "semantic-kernel>=1.32.2",
+    "uvicorn>=0.34.3",
+]
