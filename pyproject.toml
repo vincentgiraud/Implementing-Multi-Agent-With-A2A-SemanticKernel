@@ -1,0 +1,7 @@
+[project]
+name = "implementing-multi-agent-with-a2a-semantickernel"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []

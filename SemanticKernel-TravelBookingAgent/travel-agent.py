@@ -1,3 +1,4 @@
+import os
 import logging
 from uuid import uuid4
 import httpx
@@ -11,12 +12,16 @@ from semantic_kernel.functions.kernel_function_decorator import kernel_function
 from a2a.client import A2ACardResolver, A2AClient
 from a2a.types import MessageSendParams, SendMessageRequest
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-base_url = 'http://localhost:9999'
+base_url = os.getenv("A2A_SERVER_URL")
 
 # Maintain chat history per context
 chat_history_store: dict[str, ChatHistory] = {}
@@ -52,10 +57,10 @@ class FlightBookingTool:
 
 travel_planning_agent = ChatCompletionAgent(
     service=AzureChatCompletion(
-        api_key="<your-api-key",
-        endpoint="https://<your-endpoint>.openai.azure.com",
-        deployment_name="<your-deployment-name>",
-        api_version="2024-12-01-preview",
+        api_key=os.getenv("AZURE_OPENAI_API_KEY"), 
+        endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+        deployment_name=os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        api_version=os.environ.get("AZURE_OPENAI_API_VERSION")
     ),
     name="TravelPlanner",
     instructions="You are a helpful travel planning assistant. Use the provided tools to assist users with their travel plans.",
@@ -106,4 +111,4 @@ async def index(request: Request):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)

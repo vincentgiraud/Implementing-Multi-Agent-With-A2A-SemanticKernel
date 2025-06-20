@@ -1,3 +1,5 @@
+python-multipart
+python-dotenv
 semantic-kernel
 python-a2a
 fastapi

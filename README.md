@@ -1,4 +1,3 @@
-
 # Multi-Agent System with Semantic Kernel and Google A2A
 
 This repository contains the code reference for building a multi-agent system that demonstrates seamless collaboration between agents built with **Microsoft Semantic Kernel** and communicating via **Google Agent-to-Agent (A2A) protocol**.
@@ -64,33 +63,40 @@ Before you begin, ensure you have the following:
     ```bash
     python -m venv venv
     source venv/bin/activate # On Windows, use `venv\Scripts\activate`
+    # OR, with uv (https://github.com/astral-sh/uv):
+    uv venv venv
+    source venv/bin/activate # On Windows, use `venv\Scripts\activate`
     ```
 
 3.  **Install dependencies:**
 
     ```bash
     pip install -r requirements.txt
+    # OR, with uv:
+    uv pip install -r requirements.txt
     ```
 
 4.  **Configure API Keys:**
 
-      * Navigate to `flight_booking_agent_server/flight_booking_agent.py` and replace placeholders with your Azure OpenAI credentials:
+    * Copy the provided `.env.example` file to `.env` and fill in your Azure OpenAI credentials:
 
-        ```python
-        api_key="<api_key>",
-        endpoint="https://<endpoint>.openai.azure.com",
-        deployment_name="<deployment_name>",
-        ```
+      ```bash
+      cp .env.example .env  # On Windows, use: copy .env.example .env
+      ```
 
-      * Navigate to `travel_planner_agent_client/travel_agent.py` and replace placeholders with your Azure OpenAI credentials:
+      Then open `.env` and set the following values:
 
-        ```python
-        api_key="<your-api-key>",
-        endpoint="https://<your-endpoint>.openai.azure.com",
-        deployment_name="<your-deployment-name>",
-        ```
+      ```env
+      A2A_SERVER_URL=http://<your-A2A-server-host>:<port>/
+      AZURE_OPENAI_API_KEY=<your-api-key>
+      AZURE_OPENAI_ENDPOINT=https://<your-endpoint>.openai.azure.com
+      AZURE_OPENAI_DEPLOYMENT_NAME=<your-deployment-name>
+      AZURE_OPENAI_API_VERSION=<your-deployment-api-version>
+      ```
 
-      * **Note:** For production environments, consider using environment variables to manage sensitive API keys securely.
+      Your server and agent code will read these values automatically.
+
+       * **Note:** For production environments, consider using environment variables to manage sensitive API keys securely.
 
 -----
 
@@ -106,7 +112,7 @@ To see the multi-agent system in action, you'll need to run the A2A server and c
     python __main__.py
     ```
 
-    You should see output indicating the server is starting on `http://0.0.0.0:9999`.
+    You should see output indicating the server is starting on `http://localhost:9999`.
 
 2.  **Start the Travel Planner Agent (A2A Client):**
     Open a *second* terminal, navigate to the project root, and run:
@@ -117,6 +123,24 @@ To see the multi-agent system in action, you'll need to run the A2A server and c
     ```
 
     This will start the `Travel Planner Agent`, which will then be ready to communicate. You can interact with it via its chat interface.
+
+-----
+
+## 📬 Example: Chat with the Travel Planner Agent via curl
+
+You can interact with the Travel Planner Agent using a simple `curl` command:
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -F "user_input=I want to book a flight from Paris to New York on July 10th." \
+  -F "context_id=default"
+```
+
+The response will be a JSON object containing the assistant's reply:
+
+```json
+{"response": "Your assistant's response will appear here."}
+```
 
 -----
 
@@ -137,7 +161,7 @@ Both agents maintain their own conversational context based on a `context_id`, d
 
   * **Microsoft Semantic Kernel Documentation:** [https://learn.microsoft.com/en-us/semantic-kernel/](https://learn.microsoft.com/en-us/semantic-kernel/)
   * **Google Agent-to-Agent (A2A) Documentation:** [https://developers.google.com/agents/docs/a2a](https://www.google.com/search?q=https://developers.google.com/agents/docs/a2a)
-  * **My Blog Post:** [https://www.google.com/search?q=YOUR\_BLOG\_POST\_LINK\_HERE] (Highly recommended for a detailed explanation of the steps\!)
+  * **My Blog Post:** [https://ai.gopubby.com/step-by-step-guide-to-create-a-multi-agent-system-with-microsoft-semantic-kernel-and-google-a2a-1347d5ac8f4b] (Highly recommended for a detailed explanation of the steps\!)
 
 -----
 

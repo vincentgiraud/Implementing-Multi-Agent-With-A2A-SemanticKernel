@@ -1,3 +1,4 @@
+import os
 import logging
 import uvicorn
 from a2a.server.apps import A2AStarletteApplication
@@ -9,6 +10,10 @@ from a2a.types import (
     AgentSkill,
 )
 from agent_executor import SemanticKernelFlightBookingAgentExecutor  # type: ignore[import-untyped]
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -33,7 +38,7 @@ if __name__ == '__main__':
         name='Semantic Kernel Flight Booking Agent',
         description='An agent that helps users book flights using semantic kernel capabilities.',
         capabilities=AgentCapabilities(streaming=True),
-        url='http://localhost:9999/',
+        url=os.environ.get('A2A_SERVER_URL'),
         version='1.0.0',
         defaultInputModes=['text'],
         defaultOutputModes=['text'],
@@ -55,4 +60,4 @@ if __name__ == '__main__':
     )
 
     logger.info("Starting Semantic Kernel Flight Booking Agent server on port 9999.")
-    uvicorn.run(server.build(), host='0.0.0.0', port=9999)
+    uvicorn.run(server.build(), host='localhost', port=9999)

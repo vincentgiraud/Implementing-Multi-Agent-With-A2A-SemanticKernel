@@ -4,9 +4,7 @@ from a2a.utils import new_agent_text_message
 from agent import SemanticKernelFlightBookingAgent
 import logging
 from a2a.utils import (
-    new_agent_text_message,
     new_task,
-    new_text_artifact,
 )
 
 logger = logging.getLogger(__name__)

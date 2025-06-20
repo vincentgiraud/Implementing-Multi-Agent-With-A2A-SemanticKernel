@@ -1,4 +1,4 @@
-import asyncio
+import os
 import logging
 from uuid import uuid4
 
@@ -6,6 +6,10 @@ from semantic_kernel.agents.chat_completion.chat_completion_agent import ChatCom
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 from semantic_kernel.contents.chat_message_content import ChatMessageContent
 from semantic_kernel.contents.chat_history import ChatHistory
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -16,10 +20,10 @@ class SemanticKernelFlightBookingAgent:
         logger.info("Initializing SemanticKernelFlightBookingAgent.")
         self.chat_agent = ChatCompletionAgent(
             service=AzureChatCompletion(
-                api_key="<api_key>", # Replace with your Azure OpenAI API key
-                endpoint="https://<endpoint>.openai.azure.com",  # Ensure you have the correct endpoint and deployment name
-                deployment_name="<deployment_name>", # Replace with your deployment name
-                api_version="2024-12-01-preview",
+                api_key=os.getenv("AZURE_OPENAI_API_KEY"), 
+                endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+                deployment_name=os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME"),
+                api_version=os.environ.get("AZURE_OPENAI_API_VERSION")
             ),
             name="Assistant",
         )
@@ -47,7 +51,7 @@ class SemanticKernelFlightBookingAgent:
         if chat_history is None:
             chat_history = ChatHistory(
                 messages=[],
-                system_message="You are a helpful flight booking assistant. Your task is to help the user book a flight. If all information is correct, mock the response of succesful flight booking done"
+                system_message="You are a helpful flight booking assistant. Your task is to help the user book a flight. If all information is correct, mock the response of successful flight booking done"
             )
             self.history_store[context_id] = chat_history
             logger.info(f"Created new ChatHistory for context ID: {context_id}")
