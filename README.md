@@ -112,7 +112,7 @@ To see the multi-agent system in action, you'll need to run the A2A server and c
     python __main__.py
     ```
 
-    You should see output indicating the server is starting on `http://localhost:9999`.
+    You should see output indicating the server is starting on `http://0.0.0.0:9999`.
 
 2.  **Start the Travel Planner Agent (A2A Client):**
     Open a *second* terminal, navigate to the project root, and run:
@@ -126,9 +126,9 @@ To see the multi-agent system in action, you'll need to run the A2A server and c
 
 -----
 
-## 📬 Example: Chat with the Travel Planner Agent via curl
+## 📬 Example: Chat with the Travel Planner Agent via curl or UI
 
-You can interact with the Travel Planner Agent using a simple `curl` command:
+You can interact with the Travel Planner Agent using the UI at `http://localhost:8000/` or with a simple `curl` command:
 
 ```bash
 curl -X POST http://localhost:8000/chat \

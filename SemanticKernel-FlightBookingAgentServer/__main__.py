@@ -60,4 +60,4 @@ if __name__ == '__main__':
     )
 
     logger.info("Starting Semantic Kernel Flight Booking Agent server on port 9999.")
-    uvicorn.run(server.build(), host='localhost', port=9999)
+    uvicorn.run(server.build(), host="0.0.0.0", port=9999)

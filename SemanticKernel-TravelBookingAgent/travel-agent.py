@@ -103,7 +103,9 @@ async def chat(user_input: str = Form(...), context_id: str = Form("default")):
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     try:
-        with open("index.html", "r", encoding="utf-8") as f:
+        # Use absolute path to ensure index.html is found regardless of working directory
+        html_path = os.path.join(os.path.dirname(__file__), "index.html")
+        with open(html_path, "r", encoding="utf-8") as f:
             html_content = f.read()
         return HTMLResponse(content=html_content)
     except FileNotFoundError:
@@ -111,4 +113,4 @@ async def index(request: Request):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
