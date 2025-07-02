@@ -28,16 +28,16 @@ class SemanticKernelFlightBookingAgentExecutor(AgentExecutor):
         
         if not task:
             task = new_task(context.message)
-            event_queue.enqueue_event(task)
+            await event_queue.enqueue_event(task)
 
         logger.info(f"Executing flight booking with user input: {user_input} with task: {task.id} and context ID: {context_id}")
         try:
             result = await self.agent.book_flight(user_input, context_id)
-            event_queue.enqueue_event(new_agent_text_message(result))
+            await event_queue.enqueue_event(new_agent_text_message(result))
             logger.info("Flight booking executed successfully.")
         except Exception as e:
             logger.error(f"Error during flight booking execution: {e}")
-            event_queue.enqueue_event(new_agent_text_message(f"Error: {str(e)}"))
+            await event_queue.enqueue_event(new_agent_text_message(f"Error: {str(e)}"))
 
     async def cancel(
         self, context: RequestContext, event_queue: EventQueue
